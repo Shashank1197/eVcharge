@@ -261,35 +261,71 @@
     
     /* Responsive Styles */
     @media (max-width: 991px) {
+      .navbar-toggler {
+        padding: 0.5rem;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .navbar-toggler:focus {
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+      }
+
+      .navbar-toggler.collapsed .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      }
+
       .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
         background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
         padding: 1rem;
-        border-radius: 10px;
-        margin-top: 1rem;
+        border-radius: 0 0 10px 10px;
+        margin-top: 0.5rem;
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        z-index: 1000;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
       }
 
       .navbar-nav {
-        margin-bottom: 0.5rem;
+        margin: 0;
+        padding: 0.5rem 0;
       }
 
       .nav-item {
-        padding: 0.5rem 0;
+        padding: 0.5rem 1rem;
         border-bottom: 1px solid rgba(255,255,255,0.1);
+        transition: background-color 0.3s ease;
       }
 
       .nav-item:last-child {
         border-bottom: none;
       }
 
+      .nav-item:hover {
+        background-color: rgba(255,255,255,0.1);
+      }
+
+      .nav-link {
+        padding: 0.5rem 0;
+        font-size: 1.1rem;
+      }
+
       .dropdown-menu {
         background: rgba(255,255,255,0.1);
         border: none;
         margin-top: 0.5rem;
+        padding: 0.5rem 0;
       }
 
       .dropdown-item {
         color: white;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
       }
 
       .dropdown-item:hover {
@@ -299,6 +335,7 @@
 
       .dropdown-divider {
         border-color: rgba(255,255,255,0.1);
+        margin: 0.5rem 0;
       }
 
       .profile-circle {
@@ -336,6 +373,30 @@
 
       #display-google-map {
         height: 300px;
+      }
+    }
+
+    /* Animation for navbar collapse */
+    .navbar-collapse {
+      transition: all 0.3s ease-in-out;
+    }
+
+    .navbar-collapse.collapsing {
+      transition: all 0.3s ease-in-out;
+    }
+
+    .navbar-collapse.show {
+      animation: slideDown 0.3s ease-in-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
@@ -444,7 +505,7 @@
   <nav class="navbar navbar-expand-lg navbar-custom navbar-dark">
     <div class="container">
       <a class="navbar-brand" href="/">evCharge</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -667,6 +728,35 @@
 
         // Reset form
         this.reset();
+      });
+
+      // Add this to your existing script section
+      document.addEventListener('DOMContentLoaded', function() {
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+          const navbar = document.querySelector('.navbar-collapse');
+          const navbarToggler = document.querySelector('.navbar-toggler');
+          
+          if (navbar.classList.contains('show') && 
+              !navbar.contains(event.target) && 
+              !navbarToggler.contains(event.target)) {
+            navbar.classList.remove('show');
+            navbarToggler.classList.add('collapsed');
+          }
+        });
+
+        // Close mobile menu when clicking on a nav link
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+        navLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            const navbar = document.querySelector('.navbar-collapse');
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            if (navbar.classList.contains('show')) {
+              navbar.classList.remove('show');
+              navbarToggler.classList.add('collapsed');
+            }
+          });
+        });
       });
     </script>
     
