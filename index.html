@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Discover eco-friendly electric vehicle charging solutions with blockchain technology at evCharge.">
+  <title>evCharge: EV Charging Stations </title>
+  
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+  
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    :root {
+      --primary-blue: #1a4b8c;
+      --secondary-blue: #0d2b5c;
+      --light-blue: #a8c6fa;
+      --accent-blue: #4a90e2;
+      --background-light: #f0f4f8;
+      --gradient-start: #1a4b8c;
+      --gradient-end: #4a90e2;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: var(--background-light);
+    }
+    
+    .navbar-custom {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+      color: white;
+    }
+    
+    .navbar-custom .nav-link:hover {
+      color: var(--light-blue);
+    }
+    
+    .profile-circle img {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border: 2px solid var(--light-blue);
+    }
+    
+    .sb-section {
+      padding: 4rem 0;
+    }
+    
+    .sb-section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--primary-blue);
+    }
+    
+    .sb-section-subtitle {
+      font-size: 1.25rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+    
+    .container_a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .text-content {
+      width: 50%;
+      padding-right: 20px;
+    }
+    
+    .image-content {
+      width: 50%;
+    }
+    
+    .image-content img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .cta a {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    
+    .cta a:hover {
+      background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue));
+      transform: translateY(-2px);
+    }
+    
+    .locations {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 2rem auto;
+      gap: 2rem;
+    }
+    
+    .location-item {
+      width: 48%;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .map-container {
+      width: 48%;
+    }
+    
+    #display-google-map {
+      height: 100%;
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .items-grid__item {
+      margin-bottom: 2rem;
+      transition: transform 0.3s;
+    }
+    
+    .items-grid__item:hover {
+      transform: translateY(-5px);
+    }
+    
+    .items-grid__item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    
+    .card {
+      border: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+    
+    .card-title {
+      color: var(--primary-blue);
+      font-weight: 600;
+    }
+    
+    .form__group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form__group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--primary-blue);
+    }
+    
+    .form__group input,
+    .form__group textarea,
+    .form__group select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      transition: border-color 0.3s ease;
+    }
+    
+    .form__group input:focus,
+    .form__group textarea:focus,
+    .form__group select:focus {
+      border-color: var(--accent-blue);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    }
+    
+    .form__label-required {
+      color: #dc3545;
+    }
+    
+    .sb-button {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .sb-button:hover {
+      background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue));
+      transform: translateY(-2px);
+    }
+    
+    .hours-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .hours-list li {
+      margin-bottom: 0.5rem;
+      color: #666;
+    }
+    
+    #sb-footer {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      padding: 2rem 0;
+      color: white;
+    }
+    
+    .sb-footer__nav-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+    
+    .sb-footer__nav-list a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .sb-footer__nav-list a:hover {
+      color: var(--light-blue);
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 991px) {
+      .navbar-collapse {
+        background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+        padding: 1rem;
+        border-radius: 10px;
+        margin-top: 1rem;
+      }
+
+      .navbar-nav {
+        margin-bottom: 1rem;
+      }
+
+      .profile-circle {
+        margin-top: 1rem;
+      }
+
+      .container_a {
+        flex-direction: column;
+        padding: 1rem;
+      }
+
+      .text-content,
+      .image-content {
+        width: 100%;
+        padding: 0;
+      }
+
+      .text-content {
+        margin-bottom: 2rem;
+      }
+
+      .locations {
+        flex-direction: column;
+        padding: 1rem;
+      }
+
+      .location-item,
+      .map-container {
+        width: 100%;
+      }
+
+      .map-container {
+        margin-top: 1rem;
+      }
+
+      #display-google-map {
+        height: 300px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sb-section-title {
+        font-size: 2rem;
+      }
+
+      .sb-section-subtitle {
+        font-size: 1.1rem;
+      }
+
+      .items-grid__item {
+        margin-bottom: 1.5rem;
+      }
+
+      .items-grid__item img {
+        height: 180px;
+      }
+
+      .form__group {
+        margin-bottom: 1rem;
+      }
+
+      .form__group input,
+      .form__group textarea,
+      .form__group select {
+        padding: 0.5rem;
+      }
+
+      .sb-button {
+        padding: 0.5rem 1rem;
+      }
+
+      .sb-footer__nav-list {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .sb-section-title {
+        font-size: 1.75rem;
+      }
+
+      .sb-section-subtitle {
+        font-size: 1rem;
+      }
+
+      .display-4 {
+        font-size: 2rem;
+      }
+
+      .h3 {
+        font-size: 1.25rem;
+      }
+
+      .lead {
+        font-size: 1rem;
+      }
+
+      .cta a {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .items-grid__item img {
+        height: 150px;
+      }
+
+      .modal-body {
+        padding: 1rem;
+      }
+
+      .modal-footer {
+        padding: 1rem;
+      }
+    }
+
+    /* Improved Card Layout */
+    @media (max-width: 768px) {
+      .card {
+        margin-bottom: 1rem;
+      }
+
+      .card-body {
+        padding: 1rem;
+      }
+    }
+
+    /* Improved Contact Form */
+    @media (max-width: 768px) {
+      .contact-details {
+        margin-top: 2rem;
+      }
+
+      .hours-list {
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+</head>  
+
+<body>
+  
+  <nav class="navbar navbar-expand-lg navbar-custom navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">evCharge</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="html/faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="html/schedule.html">Schedule</a></li>
+        </ul>
+        <div class="profile-circle ms-3" title="User Profile">
+          <img src="unnamed.jpg" alt="User Avatar">
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div id="sb-site">
+  
+    <section id="hero" class="sb-section bg-light">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-6 text-center">
+            <h1 class="sb-section-title">evCharge</h1>
+            <div class="sb-section-subtitle"> EV charging stations </div>
+            <p class="lead">Charge your electric vehicle with clean, renewable energy at our stations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
+    <section class="py-5">
+      <div class="container_a">
+        <div class="text-content">
+          <h1 class="display-4">Powering the Future</h1>
+          <h2 class="h3 text-muted">Eco-friendly EV Charging Network</h2>
+          <p class="lead">evCharge connects cities with ev-powered charging stations for electric vehicles, revolutionizing energy use in the region.</p>
+          <div class="cta mt-4">
+            <a href="#contact" class="btn btn-success btn-lg">Get in touch</a>
+          </div>
+        </div>
+        <div class="image-content">
+          <img src="https://cdn.b12.io/client_media/1vvB9tS6/d64b6710-fe53-11ef-bfe7-0242ac110002-jpg-hero_image.jpeg" alt="Solar charging station" class="img-fluid">
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="py-5 bg-light">
+      <div class="locations">
+        <div class="location-item">
+          <h3>Charging Station Locations</h3>
+          <p>Find convenient solar-powered charging stations across cities.</p>
+          <img src="https://cdn.b12.io/client_media/1vvB9tS6/d94d485c-fe53-11ef-bfe7-0242ac110002-jpg-hero_image.jpeg" alt="EV charging station" class="img-fluid mb-3">
+          <a href="https://www.google.com/maps/search/ev+stations/@26.8861307,75.6778183,12z/data=!3m1!4b1?entry=ttu&g_ep=EgoyMDI1MDMyNS4xIKXMDSoASAFQAw%3D%3D" class="btn btn-outline-success">Learn more</a>
+        </div>
+        <div class="map-container">
+          <div id="display-google-map" style="height:400px;">
+            <iframe style="height:100%; width:100%; border:0;" frameborder="0" src="https://www.google.com/maps/embed/v1/place?q=University+of+Engineering+and+management,jaipur&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+   
+    
+    <section id="services" class="sb-section">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12">
+            <h2 class="sb-section-title">Our Services</h2>
+            <div class="sb-section-subtitle" style="color: var(--primary-blue);">Sustainable energy solutions</div>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-md-4">
+            <div class="items-grid__item">
+              <div class="card h-100 border-0 shadow-sm">
+                <img alt="solar charging station" src="https://cdn.b12.io/client_media/1vvB9tS6/d8be5692-fe53-11ef-bfe7-0242ac110002-jpg-regular_image.jpeg" class="card-img-top">
+                <div class="card-body">
+                  <h3 class="h5" style="color: var(--primary-blue);">Eco-friendly charging stations</h3>
+                  <p class="card-text">Experience the convenience of solar-powered charging for your electric vehicle.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="items-grid__item">
+              <div class="card h-100 border-0 shadow-sm">
+                <img alt="blockchain technology" src="https://cdn.b12.io/client_media/1vvB9tS6/d86c9636-fe53-11ef-bfe7-0242ac110002-jpg-regular_image.jpeg" class="card-img-top">
+                <div class="card-body">
+                  <h3 class="h5" style="color: var(--primary-blue);">Payment gateway and Transaction</h3>
+                  <p class="card-text">Secure and efficient money transaction by Razorpay and Card Payment</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="items-grid__item">
+              <div class="card h-100 border-0 shadow-sm">
+                <img alt="sustainable energy" src="https://cdn.b12.io/client_media/1vvB9tS6/d89c218a-fe53-11ef-bfe7-0242ac110002-jpg-regular_image.jpeg" class="card-img-top">
+                <div class="card-body">
+                  <h3 class="h5" style="color: var(--primary-blue);">Sustainable energy solutions</h3>
+                  <p class="card-text">Join the movement towards a cleaner, greener future with us.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section id="contact" class="sb-section bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5 mb-5 mb-lg-0">
+            <h2 class="sb-section-title">Get in Touch</h2>
+            <div class="sb-section-subtitle">We're here to help you go green!</div>
+            <form class="mt-4" id="contact-form">
+              <div class="form__group mb-3">
+                <label for="name">Name <span class="form__label-required">*</span></label>
+                <input required id="name" name="name" placeholder="Jane Smith" type="text" class="form-control">
+              </div>
+              <div class="form__group mb-3">
+                <label for="email">Email address <span class="form__label-required">*</span></label>
+                <input required id="email" name="from_email" placeholder="email@website.com" type="email" class="form-control">
+              </div>
+              <div class="form__group mb-3">
+                <label for="phone">Phone number <span class="form__label-required">*</span></label>
+                <input required id="phone" name="from_phone" placeholder="555-555-5555" type="tel" class="form-control">
+              </div>
+              <div class="form__group mb-3">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="4" class="form-control"></textarea>
+              </div>
+              <div class="form-check mb-4">
+                <input required class="form-check-input" id="consent" name="consent" type="checkbox">
+                <label class="form-check-label" for="consent">I allow this website to store my submission so they can respond to my inquiry. <span class="form__label-required">*</span></label>
+              </div>
+              <button class="sb-button btn btn-success" type="submit">Submit</button>
+            </form>
+          </div>
+          <div class="col-lg-6 offset-lg-1">
+            <div class="contact-details">
+              <h3 class="h4">Email</h3>
+              <p><a href="mailto:info@evcharge.com">info@evcharge.com</a></p>
+              
+              <h3 class="h4 mt-4">Location</h3>
+              <p><a href="https://www.google.com/maps/place/RANCHI+JH+IN" target="_blank">Jaipur, RJ, IN</a></p>
+              
+              <h3 class="h4 mt-4">Hours</h3>
+              <div class="row">
+                <div class="col-md-6">
+                  <ul class="hours-list">
+                    <li><strong>Mon:</strong> 9:00am – 10:00pm</li>
+                    <li><strong>Tue:</strong> 9:00am – 10:00pm</li>
+                    <li><strong>Wed:</strong> 9:00am – 10:00pm</li>
+                    <li><strong>Thu:</strong> 9:00am – 10:00pm</li>
+                    <li><strong>Fri:</strong> 9:00am – 10:00pm</li>
+                    <li><strong>Sat:</strong> 9:00am – 6:00pm</li>
+                    <li><strong>Sun:</strong> 9:00am – 12:00pm</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Success Modal -->
+    <div class="modal fade" id="contactSuccessModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Message Sent!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Thank you for reaching out! We'll get back to you shortly.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Contact form submission
+      document.getElementById('contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const message = document.getElementById('message').value;
+        const consent = document.getElementById('consent').checked;
+
+        if (!name || !email || !phone || !consent) {
+          alert('Please fill in all required fields');
+          return;
+        }
+
+        // Show success modal
+        const contactSuccessModal = new bootstrap.Modal(document.getElementById('contactSuccessModal'));
+        contactSuccessModal.show();
+
+        // Reset form
+        this.reset();
+      });
+    </script>
+    
+    
+    <footer id="sb-footer" class="sb-section py-4 bg-dark text-white">
+      <div class="container">
+        <div class="row justify-content-center text-center">
+          <div class="col-12">
+            <div class="sb-footer">
+              <h2 class="h3"><a href="/" class="brand text-white text-decoration-none">evCharge</a></h2>
+              <nav aria-label="Secondary">
+                <ul class="sb-footer__nav-list">
+                  <li><a href="html/schedule.html" class="text-white">Schedule appointment</a></li>
+                  <li><a href="html/faq.html" class="text-white">FAQ</a></li>
+                  <li><a href="html/about.html" class="text-white">About Us</a></li>
+                  <li><a href="html/privacypolicy.html" class="text-white">Privacy Policy</a></li>
+                </ul>
+              </nav>
+              <p class="mt-3 mb-0">&copy; 2025 evCharge. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  
+  <script src="js/script.js">
+    
+  </script>
+</body>
+</html>

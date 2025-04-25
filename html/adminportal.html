@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="evCharge Admin Portal - Manage your charging stations and operations">
+  <title>Admin Portal - evCharge</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    :root {
+      --primary-blue: #1a4b8c;
+      --secondary-blue: #0d2b5c;
+      --light-blue: #a8c6fa;
+      --accent-blue: #4a90e2;
+      --background-light: #f0f4f8;
+      --gradient-start: #1a4b8c;
+      --gradient-end: #4a90e2;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background-light);
+    }
+
+    .admin-sidebar {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+      height: 100vh;
+      position: fixed;
+      width: 250px;
+      padding: 20px;
+    }
+
+    .admin-sidebar .nav-link {
+      color: white;
+      padding: 10px 15px;
+      margin: 5px 0;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .admin-sidebar .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .admin-sidebar .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .admin-content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    .admin-header {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+      padding: 15px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+
+    .admin-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .admin-card-title {
+      color: var(--primary-blue);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .stat-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+
+    .table {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .table thead {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue));
+    }
+
+    .btn-outline-primary {
+      color: var(--primary-blue);
+      border-color: var(--primary-blue);
+    }
+
+    .btn-outline-primary:hover {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+      border: none;
+    }
+
+    .list-group-item {
+      border: none;
+      margin-bottom: 5px;
+      border-radius: 5px !important;
+    }
+
+    .list-group-item:hover {
+      background-color: var(--background-light);
+    }
+
+    .badge {
+      padding: 8px 12px;
+      border-radius: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="admin-sidebar">
+    <h3 class="mb-4">evCharge Admin</h3>
+    <nav class="nav flex-column">
+      <a class="nav-link active" href="#dashboard">
+        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+      </a>
+      <a class="nav-link" href="#stations">
+        <i class="bi bi-lightning-charge me-2"></i>Stations
+      </a>
+      <a class="nav-link" href="#users">
+        <i class="bi bi-people me-2"></i>Users
+      </a>
+      <a class="nav-link" href="#transactions">
+        <i class="bi bi-credit-card me-2"></i>Transactions
+      </a>
+      <a class="nav-link" href="#reports">
+        <i class="bi bi-graph-up me-2"></i>Reports
+      </a>
+      <a class="nav-link" href="#settings">
+        <i class="bi bi-gear me-2"></i>Settings
+      </a>
+    </nav>
+  </div>
+
+  <div class="admin-content">
+    <div class="admin-header d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">Dashboard Overview</h4>
+      <div class="d-flex align-items-center">
+        <span class="me-3">Admin User</span>
+        <img src="../unnamed.jpg" alt="Admin Avatar" class="rounded-circle" width="40" height="40">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <div class="stat-card">
+          <div class="stat-number">24</div>
+          <div class="stat-label">Active Stations</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card">
+          <div class="stat-number">1,234</div>
+          <div class="stat-label">Total Users</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card">
+          <div class="stat-number">₹45,678</div>
+          <div class="stat-label">Today's Revenue</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card">
+          <div class="stat-number">89%</div>
+          <div class="stat-label">Station Uptime</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-8">
+        <div class="admin-card">
+          <h5 class="admin-card-title">Revenue Overview</h5>
+          <div class="chart-container">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="admin-card">
+          <h5 class="admin-card-title">Station Distribution</h5>
+          <div class="chart-container">
+            <canvas id="stationChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-8">
+        <div class="admin-card">
+          <h5 class="admin-card-title">Recent Transactions</h5>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Station</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#12345</td>
+                  <td>John Doe</td>
+                  <td>Station A</td>
+                  <td>₹500</td>
+                  <td><span class="badge bg-success">Completed</span></td>
+                </tr>
+                <tr>
+                  <td>#12346</td>
+                  <td>Jane Smith</td>
+                  <td>Station B</td>
+                  <td>₹750</td>
+                  <td><span class="badge bg-warning">Pending</span></td>
+                </tr>
+                <tr>
+                  <td>#12347</td>
+                  <td>Mike Johnson</td>
+                  <td>Station C</td>
+                  <td>₹300</td>
+                  <td><span class="badge bg-success">Completed</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="admin-card">
+          <h5 class="admin-card-title">Station Status</h5>
+          <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              Station A
+              <span class="badge bg-success rounded-pill">Online</span>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              Station B
+              <span class="badge bg-warning rounded-pill">Maintenance</span>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              Station C
+              <span class="badge bg-success rounded-pill">Online</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  
+  <script>
+    // Revenue Chart
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    new Chart(revenueCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Revenue',
+          data: [30000, 35000, 40000, 38000, 42000, 45000],
+          borderColor: '#1a4b8c',
+          backgroundColor: 'rgba(26, 75, 140, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)'
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+
+    // Station Distribution Chart
+    const stationCtx = document.getElementById('stationChart').getContext('2d');
+    new Chart(stationCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Online', 'Maintenance', 'Offline'],
+        datasets: [{
+          data: [70, 20, 10],
+          backgroundColor: [
+            '#1a4b8c',
+            '#4a90e2',
+            '#a8c6fa'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
