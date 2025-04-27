@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="evCharge Admin Portal - Manage your charging stations and operations">
   <title>Admin Portal - evCharge</title>
   
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
@@ -23,352 +23,284 @@
 
     body {
       font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
       background-color: var(--background-light);
+      min-height: 100vh;
     }
 
-    .admin-sidebar {
+    .admin-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
       background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
       color: white;
-      height: 100vh;
-      position: fixed;
-      width: 250px;
-      padding: 20px;
-    }
-
-    .admin-sidebar .nav-link {
-      color: white;
-      padding: 10px 15px;
-      margin: 5px 0;
-      border-radius: 5px;
+      padding: 1rem;
       transition: all 0.3s ease;
     }
 
-    .admin-sidebar .nav-link:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+    .sidebar-header {
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 1rem;
     }
 
-    .admin-sidebar .nav-link.active {
-      background-color: rgba(255, 255, 255, 0.2);
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
 
-    .admin-content {
-      margin-left: 250px;
-      padding: 20px;
+    .sidebar-menu li {
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar-menu a {
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1rem;
+      display: block;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-menu a:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .sidebar-menu a.active {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem;
     }
 
     .admin-header {
-      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-      color: white;
-      padding: 15px 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
     }
 
-    .admin-card {
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .admin-card-title {
+    .admin-title {
       color: var(--primary-blue);
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 15px;
+      margin: 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .stat-card {
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      padding: 20px;
-      text-align: center;
-      transition: transform 0.3s ease;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .stat-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .stat-number {
-      font-size: 2rem;
-      font-weight: 700;
+    .stat-card h3 {
       color: var(--primary-blue);
+      margin-bottom: 0.5rem;
     }
 
-    .stat-label {
-      color: #666;
-      font-size: 0.9rem;
+    .stat-card p {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 0;
+      color: var(--secondary-blue);
     }
 
-    .chart-container {
-      position: relative;
-      height: 300px;
-      width: 100%;
+    .table-responsive {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1rem;
     }
 
     .table {
-      background-color: white;
-      border-radius: 10px;
-      overflow: hidden;
+      margin-bottom: 0;
     }
 
-    .table thead {
-      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-      color: white;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-      border: none;
-    }
-
-    .btn-primary:hover {
-      background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue));
-    }
-
-    .btn-outline-primary {
+    .table th {
       color: var(--primary-blue);
-      border-color: var(--primary-blue);
+      border-top: none;
     }
 
-    .btn-outline-primary:hover {
+    .btn-admin {
       background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
       color: white;
       border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
 
-    .list-group-item {
+    .btn-admin:hover {
+      background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue));
+      transform: translateY(-2px);
+    }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
       border: none;
-      margin-bottom: 5px;
-      border-radius: 5px !important;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
     }
 
-    .list-group-item:hover {
-      background-color: var(--background-light);
-    }
+    @media (max-width: 768px) {
+      .admin-container {
+        flex-direction: column;
+      }
 
-    .badge {
-      padding: 8px 12px;
-      border-radius: 20px;
+      .sidebar {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100vh;
+        z-index: 1000;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .mobile-toggle {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1001;
+      }
+
+      .main-content {
+        margin-top: 3rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="admin-sidebar">
-    <h3 class="mb-4">evCharge Admin</h3>
-    <nav class="nav flex-column">
-      <a class="nav-link active" href="#dashboard">
-        <i class="bi bi-speedometer2 me-2"></i>Dashboard
-      </a>
-      <a class="nav-link" href="#stations">
-        <i class="bi bi-lightning-charge me-2"></i>Stations
-      </a>
-      <a class="nav-link" href="#users">
-        <i class="bi bi-people me-2"></i>Users
-      </a>
-      <a class="nav-link" href="#transactions">
-        <i class="bi bi-credit-card me-2"></i>Transactions
-      </a>
-      <a class="nav-link" href="#reports">
-        <i class="bi bi-graph-up me-2"></i>Reports
-      </a>
-      <a class="nav-link" href="#settings">
-        <i class="bi bi-gear me-2"></i>Settings
-      </a>
-    </nav>
-  </div>
+  <button class="mobile-toggle" onclick="toggleSidebar()">
+    <i class="bi bi-list"></i>
+  </button>
 
-  <div class="admin-content">
-    <div class="admin-header d-flex justify-content-between align-items-center">
-      <h4 class="mb-0">Dashboard Overview</h4>
-      <div class="d-flex align-items-center">
-        <span class="me-3">Admin User</span>
-        <img src="../unnamed.jpg" alt="Admin Avatar" class="rounded-circle" width="40" height="40">
+  <div class="admin-container">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>evCharge Admin</h2>
       </div>
+      <ul class="sidebar-menu">
+        <li><a href="#" class="active"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li><a href="#"><i class="bi bi-people"></i> Users</a></li>
+        <li><a href="#"><i class="bi bi-lightning-charge"></i> Charging Stations</a></li>
+        <li><a href="#"><i class="bi bi-currency-dollar"></i> Transactions</a></li>
+        <li><a href="#"><i class="bi bi-gear"></i> Settings</a></li>
+        <li><a href="#"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+      </ul>
     </div>
 
-    <div class="row">
-      <div class="col-md-3">
-        <div class="stat-card">
-          <div class="stat-number">24</div>
-          <div class="stat-label">Active Stations</div>
-        </div>
+    <div class="main-content">
+      <div class="admin-header">
+        <h1 class="admin-title">Dashboard</h1>
+        <button class="btn-admin">Add New Station</button>
       </div>
-      <div class="col-md-3">
-        <div class="stat-card">
-          <div class="stat-number">1,234</div>
-          <div class="stat-label">Total Users</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="stat-card">
-          <div class="stat-number">₹45,678</div>
-          <div class="stat-label">Today's Revenue</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="stat-card">
-          <div class="stat-number">89%</div>
-          <div class="stat-label">Station Uptime</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="row mt-4">
-      <div class="col-md-8">
-        <div class="admin-card">
-          <h5 class="admin-card-title">Revenue Overview</h5>
-          <div class="chart-container">
-            <canvas id="revenueChart"></canvas>
-          </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Users</h3>
+          <p>1,234</p>
+        </div>
+        <div class="stat-card">
+          <h3>Active Stations</h3>
+          <p>45</p>
+        </div>
+        <div class="stat-card">
+          <h3>Today's Revenue</h3>
+          <p>$2,345</p>
+        </div>
+        <div class="stat-card">
+          <h3>Charging Sessions</h3>
+          <p>89</p>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="admin-card">
-          <h5 class="admin-card-title">Station Distribution</h5>
-          <div class="chart-container">
-            <canvas id="stationChart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="row mt-4">
-      <div class="col-md-8">
-        <div class="admin-card">
-          <h5 class="admin-card-title">Recent Transactions</h5>
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>User</th>
-                  <th>Station</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>#12345</td>
-                  <td>John Doe</td>
-                  <td>Station A</td>
-                  <td>₹500</td>
-                  <td><span class="badge bg-success">Completed</span></td>
-                </tr>
-                <tr>
-                  <td>#12346</td>
-                  <td>Jane Smith</td>
-                  <td>Station B</td>
-                  <td>₹750</td>
-                  <td><span class="badge bg-warning">Pending</span></td>
-                </tr>
-                <tr>
-                  <td>#12347</td>
-                  <td>Mike Johnson</td>
-                  <td>Station C</td>
-                  <td>₹300</td>
-                  <td><span class="badge bg-success">Completed</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="admin-card">
-          <h5 class="admin-card-title">Station Status</h5>
-          <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              Station A
-              <span class="badge bg-success rounded-pill">Online</span>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              Station B
-              <span class="badge bg-warning rounded-pill">Maintenance</span>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              Station C
-              <span class="badge bg-success rounded-pill">Online</span>
-            </a>
-          </div>
-        </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Station ID</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Current User</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ST001</td>
+              <td>Downtown Mall</td>
+              <td><span class="badge bg-success">Active</span></td>
+              <td>John Doe</td>
+              <td>
+                <button class="btn btn-sm btn-primary">Edit</button>
+                <button class="btn btn-sm btn-danger">Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td>ST002</td>
+              <td>City Park</td>
+              <td><span class="badge bg-warning">Maintenance</span></td>
+              <td>-</td>
+              <td>
+                <button class="btn btn-sm btn-primary">Edit</button>
+                <button class="btn btn-sm btn-danger">Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td>ST003</td>
+              <td>Airport Terminal</td>
+              <td><span class="badge bg-success">Active</span></td>
+              <td>Jane Smith</td>
+              <td>
+                <button class="btn btn-sm btn-primary">Edit</button>
+                <button class="btn btn-sm btn-danger">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-  
   <script>
-    // Revenue Chart
-    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-    new Chart(revenueCtx, {
-      type: 'line',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        datasets: [{
-          label: 'Revenue',
-          data: [30000, 35000, 40000, 38000, 42000, 45000],
-          borderColor: '#1a4b8c',
-          backgroundColor: 'rgba(26, 75, 140, 0.1)',
-          tension: 0.4,
-          fill: true
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            grid: {
-              color: 'rgba(0, 0, 0, 0.1)'
-            }
-          },
-          x: {
-            grid: {
-              display: false
-            }
-          }
-        }
-      }
-    });
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    }
 
-    // Station Distribution Chart
-    const stationCtx = document.getElementById('stationChart').getContext('2d');
-    new Chart(stationCtx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Online', 'Maintenance', 'Offline'],
-        datasets: [{
-          data: [70, 20, 10],
-          backgroundColor: [
-            '#1a4b8c',
-            '#4a90e2',
-            '#a8c6fa'
-          ]
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom'
-          }
-        }
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebar');
+      const mobileToggle = document.querySelector('.mobile-toggle');
+      
+      if (window.innerWidth <= 768 && 
+        !sidebar.contains(event.target) && 
+        !mobileToggle.contains(event.target)) {
+        sidebar.classList.remove('active');
       }
     });
   </script>
